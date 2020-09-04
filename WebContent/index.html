@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>NaveenPillsProject</title>
+<script type="text/javascript" src="logg.js"></script>
+<script type="text/javascript">
+
+function login(){
+	var uemail = document.getElementById("usemail").value;
+	var upwd = document.getElementById("uspwd").value;
+	
+	var url = "http://localhost:8080/naveenpillsv2/pills/user/login";
+	request = new XMLHttpRequest();
+	request.open("post", url, true);
+	
+	request.onreadystatechange = function() {
+		if(request.readyState==4 && request.status==200){
+		    message = request.responseText;
+		    if (message == 0) {
+			    document.getElementById("msg").innerHTML = "Sorry, Inavlid Email !!!"
+			} else if (message == 2) {
+			    document.getElementById("msg").innerHTML = "Sorry, Invalid Email/Password !!!"
+			} else {
+			    sessionStorage.setItem("logged", true);
+			    sessionStorage.setItem("username", message);
+			    sessionStorage.setItem("emailid",uemail);
+			    location.href = "welcomepage.html";
+			}
+		    }
+		}
+		
+	request.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+	request.send("uemail=" + uemail + "&upwd=" + upwd);
+	return false;
+}
+
+</script>
+</head>
+<body>
+<form method="post" onsubmit="return login()" >
+email:<input type="email" id="usemail"><br>
+password:<input type="password" id="uspwd"><br>
+<input type="submit" value="login" >
+</form>
+<a href="forgotpassword.html" >Forgot Password</a>
+<a href="registernewuser.html" >New User</a>
+<b><span id="msg"></span></b>
+</body>
+</html>

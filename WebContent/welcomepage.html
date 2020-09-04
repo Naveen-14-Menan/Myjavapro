@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Welcome Page</title>
+<script type="text/javascript" src="logoff.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+window.onload =  function(){
+	s=localStorage.getItem("logged");
+	
+	if(s === false){
+		location.href = "index.html";		
+	}else{
+		document.getElementById("peir").innerHTML=localStorage.getItem("username");
+	}
+}
+function logout(){
+	   sessionStorage.setItem("logged", false);
+	    sessionStorage.setItem("emailid", null);
+	    sessionStorage.setItem("loggedname", null);
+	   location.href="index.html";
+	   
+	   return false;
+}
+function myprof(){
+	location.href="myprofilepage.html"
+}
+</script>
+<style type="text/css">
+
+.ll{
+	font-size : 20px;
+	border-radius : 5px;
+	float:right;
+	padding: 10px;
+	background-color: #2196F3;
+	color: white;
+	font-weight: bold;
+	border : none;
+	margin-top: 20px;
+}
+</style>
+</head>
+<body>
+<h1>Welcome <span id="peir">....</span> </h1>
+<input type="button" value="LogOut" onclick="logout()" class="ll"><br>
+
+<label for="Menu" >Menu</label>
+			<select id="options" name="options" onchange="moveto()">
+				<option value="Home">Home</option>
+				<option value="Myprofile" onclick="myprof()">My profile</option>
+				<option value="Medical">Medical History</option>
+			</select><br>
+		<hr>	 
+<br><b><a href="myprofilepage.html">My Profile</a></b>
+
+
+</body>
+</html>

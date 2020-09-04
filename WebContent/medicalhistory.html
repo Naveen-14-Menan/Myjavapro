@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Medical History</title>
+
+<script type="text/javascript" src="js/menu.js"></script>
+<link rel="stylesheet" href="css/toggle.css">
+<style type="text/css">
+td,th{
+	padding: 13px;
+	border : solid 1px blue;
+}
+
+table{
+	margin-top: 20px;
+	border : solid 1px blue;
+	width : 100%;
+}
+</style>
+</head>
+<body>
+<label for="menu"> Menu</label>
+<select id="menu" name="menu" onchange="moveto();" >
+	<option value="0">Home</option>
+	<option value="1">My Profile</option>
+	<option value="2" selected>Medical History</option>
+	<option value="3">Reset Password</option>
+</select>
+
+<div>
+	<label>View Medical History</label>
+	<select id="medicalhistory" name="medicalhistory">
+				<option value="self" selected">Self</option>
+				<option value="mother">Mother</option>
+				<option value="father">Father</option>
+				<option value="spouse">Spouse</option>
+				<option value="son">Son</option>
+				<option value="daughter">Daughter</option>
+	</select><br><br>
+	
+	<input type="button" value="Add Medical History" >
+</div>
+
+<div>
+<table>
+	<tr>
+		<th>Illness</th>
+		<th>Doctor Details</th>
+		<th>Medicines</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>Dosage Amount</th>
+		<th>Dosage Frequency</th>
+		<th>Dosage Time</th>
+		<th>Email Notification</th>
+		<th>Remove</th>
+	</tr>
+	<tr>
+		<td>Common Flu</td>
+		<td>Kim Stanley</td>
+		<td>Paracetamol</td>
+		<td>24 Aug 2020</td>
+		<td>26 Aug 2020</td>
+		<td>1 Tablet</td>
+		<td>Daily- Twice</td>
+		<td>2 pm</td>
+		<td><input type="checkbox" checked></td>
+		<td>X</td>
+	</tr>
+
+
+</table>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>My Profile</title>
+<script type="text/javascript">
+window.onload = function() {
+	emailid = sessionStorage.getItem("emailid");
+	username = sessionStorage.getItem("username");
+	document.getElementById("uemail").value=emailid;
+	var url = "http://localhost:8080/naveenpillsv2/pills/user/edituser/"+emailid;
+	var request = new XMLHttpRequest();
+	request.open("GET",url,true,);
+	request.onreadystatechange = function() {
+	    if (request.readyState == 4  && request.status == 200) {
+			var user = request.responseText;
+			console.log(user);
+			user = JSON.parse(user);
+			 document.getElementById("uname").value=user.uname;
+			 ucountry=user.ucountry;
+			 //document.getElementById("useremail").value=user.;
+			 document.getElementById("ucontact").value=user.ucontact;
+			 document.getElementById("udob").value=user.udob;
+			 document.getElementById("ublood").value=user.blood;
+			 document.getElementById("udob").value=user.udob;
+			 document.getElementById("uweight").value=user.weight;
+			 document.getElementById("uheight").value=user.height;
+			 upwd=user.upwd;
+	    }
+	}
+	request.send(null);
+	
+}
+
+
+
+function UpdateUserData(){
+	var uname = document.getElementById("uname").value;
+    var uemail = document.getElementById("uemail").value;
+    var umobile = document.getElementById("ucontact").value;
+    var ucountry = ucountry;
+    var udob = document.getElementById("udob").value;
+   	// var udobb = udob.split('-').reverse().join('-')
+    var ubloodgrp = document.getElementById("ublood").value;
+    var upassword = upwd;
+    var weight = document.getElementById("uweight").value;
+    var height = document.getElementById("uheight").value;
+    
+    var dependentdata = "uemail="+uemail+"&uname="+uname+"&ucontact="+umobile+"&ucountry="+ucountry+"&udob="+udob+"&upwd="+upassword+"&blood="+ubloodgrp+"&weight="+weight+"&height="+height;
+    let url = "http://localhost:8080/naveenpillsv2/pills/user/updateuser";   
+    let request = new XMLHttpRequest();
+    request.open("PUT",url,true);
+    request.onreadystatechange = function(){
+		res = request.responseText;
+		if(res == "User profile updated"){
+			document.getElementById("UserProfileUpdationMSG").innerHTML=res;
+			alert("User Data Updated");
+		}else{
+			document.getElementById("UserProfileUpdationMSG").innerHTML="User Profile data entered is not updated";
+		}
+    }
+    request.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    request.send(dependentdata);
+    return false;
+}
+
+function adddependents(){
+	var uemail=sessionStorage.getItem("emailid");
+	var dname = document.getElementById("dname").value;
+    var demail = document.getElementById("demail").value;
+    var dmobile = document.getElementById("dcontact").value;
+    var relation = document.getElementById("relationship").value;
+    //var ucountry = document.getElementById("ucountry").value;
+    var ddob = document.getElementById("ddob").value;
+   	// var udobb = udob.split('-').reverse().join('-')
+    var dbloodgrp = document.getElementById("dblood").value;
+    //var upassword = document.getElementById("upwd").value;
+    var dweight = document.getElementById("dweight").value;
+    var dheight = document.getElementById("dheight").value;
+    
+    var profiledeptdata = "usemail="+uemail+"&demail="+demail+"&dname="+dname+"&dcontact="+dmobile+"&ddob="+ddob+"&relation="+relation+"&dblood="+dbloodgrp+"&dweight="+dweight+"&dheight="+dheight;
+    let url = "http://localhost:8080/naveenpillsv2/pills/user/adddependent";   
+    let request = new XMLHttpRequest();
+    request.open("POST",url,true);
+    request.onreadystatechange = function(){
+    if (request.readyState == 4 && request.status == 200) {
+		res = request.responseText;
+		if(res == "Dependent saved"){
+			document.getElementById("deptmsg").innerHTML="Dependent saved";
+			alert("Dependent saved");
+		}
+		else{
+			document.getElementById("deptmsg").innerHTML="Dependent already exist";
+			alert("Dependent already exist");
+		   // document.getElementById("errmsg").innerHTML = "User ID not available !!!"
+		}
+			
+		   
+		}
+    }
+    request.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    request.send(profiledeptdata);
+    return false;
+    }
+    
+	
+function dependentOption(){	//function to display dependents
+		var emailid = sessionStorage.getItem("emailid");
+		var rel = document.getElementById("dependent").value;
+		var url = "http://localhost:8080/naveenpillsv2/pills/user/viewDependent/"+emailid+"/"+rel;
+		var request = new XMLHttpRequest();
+		request.open("GET",url,true);
+		request.onreadystatechange = function() {
+		    if (request.readyState == 4 && (request.status==204 || request.status == 200)) {
+				var dependentData = request.responseText;
+				
+				 if(dependentData == ""){
+					 
+					 document.getElementById("deptmsg").innerHTML="The dependent is not found within our Collection";
+					 alert("The dependent is not found within our Collection");
+					 setTimeout(() => {location.href="myprofilepage.html"
+						
+					}, 1000);
+				 }else{
+					 console.log(dependentData);
+				dependent = JSON.parse(dependentData);
+				document.getElementById("relationship").value=dependent.relation;
+				 document.getElementById("dname").value=dependent.dname;
+				 //document.getElementById("useremail").value=user.;
+				 document.getElementById("demail").value=dependent.demail;
+				 document.getElementById("dcontact").value=dependent.dcontact;
+				 document.getElementById("ddob").value=dependent.ddob;
+				 document.getElementById("dblood").value=dependent.dblood;
+				 document.getElementById("dweight").value=dependent.dweight;
+				 document.getElementById("dheight").value=dependent.dheight;
+				 }
+				
+				
+				
+		    }
+		}
+		request.send(null);
+}
+
+function backtohomepage(){
+	location.href="welcomepage.html";
+}
+function backToProfilePage(){
+	location.href="myprofilepage.html";
+}
+
+</script>
+<style type="text/css">
+table{
+	width: 50%;
+	float: left;
+	border: solid 1px blue;
+	padding: 20px;
+}
+td{
+	padding: 5px;
+}
+
+img{
+	width: 10vw;
+	height: 10vw;
+}
+
+.btn{
+	font-size : 20px;
+	border-radius : 5px;
+	padding: 10px;
+	background-color: #2196F3;
+	color: white;
+	font-weight: bold;
+	border : none;
+	margin-top: 20px;
+}
+
+</style>
+
+</head>
+<body>
+<b style="align-self:center;  font-size : 35px">My Profile Page</b>
+
+<div style="float:right;">
+	<input type="button" value="Back to Home page" onclick="backtohomepage()">
+</div><br><br>
+
+<hr>
+<br>
+<div>
+	
+	<table>
+	
+		<tr>
+			
+			<td><h1><span id="displayname">Name</span></h1></td>
+		</tr>
+		<tr>
+			<td>Name</td>
+			<td><input type="text" placeholder="Enter Name " id="uname"></td>
+		</tr>
+		<tr>
+			<td>Email Address</td>
+			<td><input type="email" placeholder="Enter Email" id="uemail"></td>
+		</tr>
+		<tr>
+			<td>Contact Number</td>
+			<td><input type="number" placeholder="Enter Contact" id="ucontact"></td>
+		</tr>
+		<tr>
+			<td>Blood Group</td>
+			<td><label for="Blood Group" >Blood Group</label>
+			<select name="bloodgroup" id="ublood">
+			<option value="O-">O-</option>
+			<option value="O+">O+</option>
+			<option value="A-">A-</option>
+			<option value="A+">A+</option>
+			<option value="B-">B-</option>
+			<option value="B+">B+</option>
+			<option value="AB-">AB-</option>
+			<option value="AB+">AB+</option>
+		</select></td>
+		</tr>
+		<tr>
+			<td>Date of Birth</td>
+			<td><input type="date" placeholder="Enter Date of Birth" id="udob"></td>
+		</tr>
+		<tr>
+			<td>Weight</td>
+			<td><input type="number" placeholder="Enter Weight (Kg)" id="uweight"></td>
+		</tr>
+		<tr>
+			<td>Height</td>
+			<td><input type="number" placeholder="Enter Height (cms)" id="uheight"></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="Save"  onclick="UpdateUserData()"> </td>
+			<td><input type="submit" value="Cancel" onclick="backToProfilePage()"></td>
+		</tr>
+		<tr>
+			<td><span id="UserProfileUpdationMSG"></span> </td>
+		</tr>
+
+	</table>
+	
+	<table>
+	
+		<tr>
+			<td><input type="button" value="Add Dependents" class="btn" onclick="adddependents()"><br><br></td>
+			
+		</tr>
+		<tr>
+			<td>
+			<label for="View_Dependents" >View Dependents</label>
+			<select id="dependent" name="dependent" onchange="dependentOption()">
+				<option value="">Relationship</option>
+				<option value="self">Self</option>
+				<option value="mother">Mother</option>
+				<option value="father">Father</option>
+				<option value="spouse">Spouse</option>
+				<option value="son">Son</option>
+				<option value="daughter">Daughter</option>
+				<option value="motherInLaw">Mother-In-Law</option>
+				<option value="fatherInLaw">Father-In-Law</option>
+				
+			</select><br><br>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>Relationship</td>
+			<td><label for="relationship" ></label>
+			<select id="relationship" name="relationship" >
+				<option value="">Relationship</option>
+				<option value="self">Self</option>
+				<option value="mother">Mother</option>
+				<option value="father">Father</option>
+				<option value="spouse">Spouse</option>
+				<option value="son">Son</option>
+				<option value="daughter">Daughter</option>
+				<option value="motherInLaw">Mother-In-Law</option>
+				<option value="fatherInLaw">Father-In-Law</option>
+				
+			</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>Name</td>
+			<td><input type="text" placeholder="Enter Name " id="dname"></td>
+		</tr>
+		<tr>
+			<td>Email Address</td>
+			<td><input type="email" placeholder="Enter Email" id="demail"></td>
+		</tr>
+		<tr>
+			<td>Contact Number</td>
+			<td><input type="number" placeholder="Enter Contact" id="dcontact"></td>
+		</tr>
+		<tr>
+			<td>Blood Group</td>
+			<td><input type="text" placeholder="Enter Blood Group" id="dblood"></td>
+		</tr>
+		<tr>
+			<td>Date of Birth</td>
+			<td><input type="date" placeholder="Enter Date of Birth" id="ddob"></td>
+		</tr>
+		<tr>
+			<td>Weight</td>
+			<td><input type="number" placeholder="Enter Weight (Kg)" id="dweight"></td>
+		</tr>
+		<tr>
+			<td>Height</td>
+			<td><input type="number" placeholder="Enter Height (cms)" id="dheight"></td>
+		</tr>
+		<tr><td style="font-size: 40px;"><span id="deptmsg"></span></td></tr>
+		
+	</table>
+	
+</div>
+
+
+
+
+
+</body>
+</html>
